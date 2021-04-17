@@ -14,7 +14,7 @@ class MainController extends AbstractController
      */
     public function index()
     {
-        return new Response('<h1>Welcome Home</h1>');
+        return $this->render('home/index.html.twig');
     }
 
     /**
@@ -23,6 +23,8 @@ class MainController extends AbstractController
     public function custom(Request $request)
     {
         $name = $request->get('name');
-        return new Response('<h1>Welcome ' . $name . '! </h1>');
+        return $this->render('home/custom.html.twig',[
+            'name' => $name
+        ]);
     }
 }
