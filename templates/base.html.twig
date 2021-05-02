@@ -30,7 +30,10 @@
             </li>
             <li class="nav-item">
                 <a class="btn btn-primary" href="{{ path('post.create') }}">Create Post</a>
-            </li>
+            </li> &nbsp
+            <li class="nav-item">
+                <a class="btn btn-info" href="{{ path('post.notify') }}">Notificaion Service</a>
+            </li> &nbsp
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item float-right">
                     <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>

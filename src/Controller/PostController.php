@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Services\FileUploader;
+use App\Services\Notification;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -36,7 +38,7 @@ class PostController extends AbstractController
      * @param FileUploader $fileUploader
      * @return Response
      */
-    public function create(Request $request)
+    public function create(Request $request, FileUploader $fileUploader)
     {
         // create new post
         $post = new Post();
@@ -51,13 +53,7 @@ class PostController extends AbstractController
             /** @var UploadedFile $file  */
             $file = $request->files->get('post')['attachment'];
             if($file){
-                $filename = md5(uniqid("",true)) .  '.' . $file->getClientOriginalExtension();
-
-                $file->move(
-                    $this->getParameter('uploads_dir'),
-                    $filename
-                );
-
+                $filename = $fileUploader->uploadFile($file);
                 $post->setImage($filename);
 
                 $em->persist($post);
@@ -101,6 +97,15 @@ class PostController extends AbstractController
 
         $this->addFlash('success','Post was removed');
 
+        return $this->redirect($this->generateUrl('post.index'));
+    }
+
+    /**
+     * @Route ("/notify",name="notify")
+     * @param Notification $notification
+     */
+    public function notify(Notification $notification)
+    {
         return $this->redirect($this->generateUrl('post.index'));
     }
 }
