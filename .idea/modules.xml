@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../cauldron_overflow/.idea/cauldron_overflow.iml" filepath="$PROJECT_DIR$/../cauldron_overflow/.idea/cauldron_overflow.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/symfonyCourse.iml" filepath="$PROJECT_DIR$/.idea/symfonyCourse.iml" />
     </modules>
   </component>
