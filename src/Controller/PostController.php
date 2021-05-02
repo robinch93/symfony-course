@@ -7,6 +7,7 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,14 +48,25 @@ class PostController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
+            /** @var UploadedFile $file  */
+            $file = $request->files->get('post')['attachment'];
+            if($file){
+                $filename = md5(uniqid("",true)) .  '.' . $file->getClientOriginalExtension();
+
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename
+                );
+
+                $post->setImage($filename);
+
+                $em->persist($post);
+                $em->flush();
+            }
 
             return $this->redirect($this->generateUrl('post.index'));
 
         }
-
-//        return $this->redirect($this->generateUrl('post.index'));
 
         return $this->render('post/create.html.twig',[
             'form' => $form->createView()

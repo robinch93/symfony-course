@@ -28,6 +28,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('custom', { name: 'Harry' }) }}">Greet Harry</a>
             </li>
+            <li class="nav-item">
+                <a class="btn btn-primary" href="{{ path('post.create') }}">Create Post</a>
+            </li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item float-right">
                     <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
