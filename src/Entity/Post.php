@@ -34,6 +34,11 @@ class Post
      */
     private $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category",inversedBy="post")
+     */
+    private $category;
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -54,6 +59,18 @@ class Post
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
